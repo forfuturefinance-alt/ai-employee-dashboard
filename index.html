@@ -1,14 +1,228 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My AI Employee</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Employee Dashboard</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #10111b;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 25px;
+}
+
+header {
+  margin-bottom: 35px;
+}
+
+header p {
+  color: #999bb0;
+  margin-top: 8px;
+}
+
+h1 {
+  font-size: 27px;
+}
+
+h2 {
+  margin-bottom: 18px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.card {
+  background: #1c1e2d;
+  border: 1px solid #303247;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.card p {
+  color: #a5a7bb;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 30px;
+  color: #a78bfa;
+  margin: 0;
+}
+
+.employee {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  background: #39305e;
+  padding: 13px;
+  border-radius: 12px;
+  font-size: 23px;
+}
+
+.employee p {
+  color: #a5a7bb;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.status {
+  color: #4ade80;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.task {
+  padding: 16px 0;
+  border-bottom: 1px solid #303247;
+}
+
+.task p {
+  color: #a5a7bb;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+button {
+  background: #7c3aed;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+footer {
+  margin-top: 35px;
+  color: #77798e;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-width: 350px) {
+  body { padding: 15px; }
+  .stats { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 
 <body>
 
-    <h1>AI Employee Dashboard</h1>
+<header>
+  <h1>AI Employee Dashboard</h1>
+  <p>Welcome back! Here's your workspace.</p>
+</header>
 
-    <p>Welcome to my first website!</p>
+<h2>Overview</h2>
+
+<section class="stats">
+  <div class="card">
+    <p>AI Employees</p>
+    <h2>4</h2>
+  </div>
+
+  <div class="card">
+    <p>Active Tasks</p>
+    <h2>12</h2>
+  </div>
+
+  <div class="card">
+    <p>Completed</p>
+    <h2>28</h2>
+  </div>
+
+  <div class="card">
+    <p>Workflows</p>
+    <h2>6</h2>
+  </div>
+</section>
+
+<h2>My AI Employees</h2>
+
+<div class="card">
+
+  <div class="employee">
+    <div class="avatar">✍️</div>
+    <div>
+      <strong>Content Writer</strong>
+      <p>Creates content and scripts</p>
+    </div>
+    <span class="status">Online</span>
+  </div>
+
+  <div class="employee">
+    <div class="avatar">🔍</div>
+    <div>
+      <strong>Research Assistant</strong>
+      <p>Finds and organizes information</p>
+    </div>
+    <span class="status">Online</span>
+  </div>
+
+  <div class="employee">
+    <div class="avatar">📊</div>
+    <div>
+      <strong>Data Analyst</strong>
+      <p>Analyzes data and reports</p>
+    </div>
+    <span class="status">Online</span>
+  </div>
+
+  <div class="employee">
+    <div class="avatar">📅</div>
+    <div>
+      <strong>Task Manager</strong>
+      <p>Organizes daily tasks</p>
+    </div>
+    <span class="status">Online</span>
+  </div>
+
+</div>
+
+<h2 style="margin-top:35px">Recent Tasks</h2>
+
+<div class="card">
+  <div class="task">
+    <strong>Write YouTube Script</strong>
+    <p>Content Writer · In progress</p>
+  </div>
+
+  <div class="task">
+    <strong>Research New Topics</strong>
+    <p>Research Assistant · Pending</p>
+  </div>
+
+  <div class="task">
+    <strong>Prepare Weekly Report</strong>
+    <p>Data Analyst · Completed</p>
+  </div>
+</div>
+
+<button onclick="alert('More features coming soon!')">
+  + Create New Task
+</button>
+
+<footer>
+  AI Employee Dashboard · Version 1.0
+</footer>
 
 </body>
-</html>
+    </html>
+      
