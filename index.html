@@ -7,222 +7,322 @@
 <title>AI Employee Dashboard</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; }
 
 body {
-  background: #10111b;
-  color: white;
+  margin: 0;
+  padding: 24px;
+  background: #10111c;
+  color: #f5f5fa;
   font-family: Arial, sans-serif;
-  padding: 25px;
 }
 
-header {
-  margin-bottom: 35px;
+.container {
+  max-width: 900px;
+  margin: auto;
 }
 
-header p {
-  color: #999bb0;
-  margin-top: 8px;
-}
-
-h1 {
-  font-size: 27px;
-}
+h1 { font-size: 25px; }
+.subtitle { color: #999bad; }
 
 h2 {
-  margin-bottom: 18px;
+  font-size: 19px;
+  margin-top: 32px;
 }
 
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-bottom: 35px;
+  gap: 12px;
 }
 
-.card {
-  background: #1c1e2d;
-  border: 1px solid #303247;
+.card, .panel {
+  background: #1d1f2e;
+  border: 1px solid #303246;
   border-radius: 14px;
-  padding: 20px;
+  padding: 18px;
 }
 
-.card p {
-  color: #a5a7bb;
-  margin-bottom: 12px;
-}
+.stat-label { color: #a5a6b6; }
 
-.card h2 {
-  font-size: 30px;
-  color: #a78bfa;
-  margin: 0;
+.stat-number {
+  color: #ad83ff;
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 .employee {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 14px;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #303246;
 }
 
 .avatar {
   background: #39305e;
-  padding: 13px;
-  border-radius: 12px;
-  font-size: 23px;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 21px;
 }
 
-.employee p {
-  color: #a5a7bb;
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-.status {
-  color: #4ade80;
-  font-size: 12px;
-  margin-left: auto;
-}
+.employee-info { flex: 1; }
+.employee-info small { color: #999bad; }
+.online { color: #4bd49a; font-size: 12px; }
 
 .task {
-  padding: 16px 0;
-  border-bottom: 1px solid #303247;
+  padding: 15px 0;
+  border-bottom: 1px solid #303246;
 }
 
-.task p {
-  color: #a5a7bb;
-  font-size: 13px;
-  margin-top: 7px;
+.task-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.task small { color: #999bad; }
+
+select, input {
+  background: #141522;
+  color: white;
+  border: 1px solid #44465d;
+  border-radius: 8px;
+  padding: 11px;
+  width: 100%;
+  margin: 7px 0;
 }
 
 button {
-  background: #7c3aed;
+  background: #7939e8;
   color: white;
   border: none;
-  padding: 14px 20px;
-  border-radius: 10px;
-  margin-top: 20px;
-  font-size: 14px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  margin: 5px 3px 5px 0;
+}
+
+button.secondary { background: #34364b; }
+button.danger { background: #a53b4c; }
+
+.status {
+  color: #c39cff;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.empty {
+  color: #999bad;
+  padding: 20px 0;
 }
 
 footer {
-  margin-top: 35px;
-  color: #77798e;
-  font-size: 12px;
   text-align: center;
+  color: #77798d;
+  margin: 45px 0 20px;
+  font-size: 12px;
 }
 
-@media (max-width: 350px) {
-  body { padding: 15px; }
-  .stats { grid-template-columns: 1fr; }
+@media(max-width: 480px) {
+  body { padding: 18px; }
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
-<header>
-  <h1>AI Employee Dashboard</h1>
-  <p>Welcome back! Here's your workspace.</p>
-</header>
+<h1>AI Employee Dashboard</h1>
+<p class="subtitle">Welcome back! Here's your workspace.</p>
 
 <h2>Overview</h2>
 
-<section class="stats">
+<div class="stats">
   <div class="card">
-    <p>AI Employees</p>
-    <h2>4</h2>
+    <div class="stat-label">AI Employees</div>
+    <div class="stat-number">4</div>
   </div>
 
   <div class="card">
-    <p>Active Tasks</p>
-    <h2>12</h2>
+    <div class="stat-label">Active Tasks</div>
+    <div class="stat-number" id="active">0</div>
   </div>
 
   <div class="card">
-    <p>Completed</p>
-    <h2>28</h2>
+    <div class="stat-label">Completed</div>
+    <div class="stat-number" id="completed">0</div>
   </div>
 
   <div class="card">
-    <p>Workflows</p>
-    <h2>6</h2>
+    <div class="stat-label">Total Tasks</div>
+    <div class="stat-number" id="total">0</div>
   </div>
-</section>
+</div>
 
 <h2>My AI Employees</h2>
 
-<div class="card">
-
+<div class="panel">
   <div class="employee">
     <div class="avatar">✍️</div>
-    <div>
-      <strong>Content Writer</strong>
-      <p>Creates content and scripts</p>
+    <div class="employee-info">
+      <b>Content Writer</b><br>
+      <small>Creates content and scripts</small>
     </div>
-    <span class="status">Online</span>
+    <span class="online">Online</span>
   </div>
 
   <div class="employee">
     <div class="avatar">🔍</div>
-    <div>
-      <strong>Research Assistant</strong>
-      <p>Finds and organizes information</p>
+    <div class="employee-info">
+      <b>Research Assistant</b><br>
+      <small>Finds and organizes information</small>
     </div>
-    <span class="status">Online</span>
+    <span class="online">Online</span>
   </div>
 
   <div class="employee">
     <div class="avatar">📊</div>
-    <div>
-      <strong>Data Analyst</strong>
-      <p>Analyzes data and reports</p>
+    <div class="employee-info">
+      <b>Data Analyst</b><br>
+      <small>Analyzes data and reports</small>
     </div>
-    <span class="status">Online</span>
+    <span class="online">Online</span>
   </div>
 
   <div class="employee">
     <div class="avatar">📅</div>
-    <div>
-      <strong>Task Manager</strong>
-      <p>Organizes daily tasks</p>
+    <div class="employee-info">
+      <b>Task Manager</b><br>
+      <small>Organizes daily tasks</small>
     </div>
-    <span class="status">Online</span>
-  </div>
-
-</div>
-
-<h2 style="margin-top:35px">Recent Tasks</h2>
-
-<div class="card">
-  <div class="task">
-    <strong>Write YouTube Script</strong>
-    <p>Content Writer · In progress</p>
-  </div>
-
-  <div class="task">
-    <strong>Research New Topics</strong>
-    <p>Research Assistant · Pending</p>
-  </div>
-
-  <div class="task">
-    <strong>Prepare Weekly Report</strong>
-    <p>Data Analyst · Completed</p>
+    <span class="online">Online</span>
   </div>
 </div>
 
-<button onclick="alert('More features coming soon!')">
-  + Create New Task
-</button>
+<h2>Create New Task</h2>
+
+<div class="panel">
+  <label>Task Name</label>
+  <input id="taskName" placeholder="Enter task name">
+
+  <label>Assign Employee</label>
+  <select id="employee">
+    <option>Content Writer</option>
+    <option>Research Assistant</option>
+    <option>Data Analyst</option>
+    <option>Task Manager</option>
+  </select>
+
+  <button onclick="addTask()">+ Create Task</button>
+</div>
+
+<h2>Recent Tasks</h2>
+
+<div class="panel" id="taskList"></div>
 
 <footer>
-  AI Employee Dashboard · Version 1.0
+AI Employee Dashboard · Version 2.0
 </footer>
 
+</div>
+
+<script>
+let tasks = JSON.parse(
+  localStorage.getItem("aiTasks") || "[]"
+);
+
+function saveTasks() {
+  localStorage.setItem("aiTasks", JSON.stringify(tasks));
+  renderTasks();
+}
+
+function addTask() {
+  const name = document.getElementById("taskName").value.trim();
+  const employee = document.getElementById("employee").value;
+
+  if (!name) {
+    alert("Please enter a task name.");
+    return;
+  }
+
+  tasks.unshift({
+    id: Date.now(),
+    name: name,
+    employee: employee,
+    status: "Pending"
+  });
+
+  document.getElementById("taskName").value = "";
+  saveTasks();
+}
+
+function updateStatus(id, status) {
+  tasks = tasks.map(task =>
+    task.id === id ? {...task, status} : task
+  );
+
+  saveTasks();
+}
+
+function deleteTask(id) {
+  if (!confirm("Delete this task?")) return;
+
+  tasks = tasks.filter(task => task.id !== id);
+  saveTasks();
+}
+
+function renderTasks() {
+  const list = document.getElementById("taskList");
+
+  document.getElementById("active").textContent =
+    tasks.filter(t => t.status !== "Completed").length;
+
+  document.getElementById("completed").textContent =
+    tasks.filter(t => t.status === "Completed").length;
+
+  document.getElementById("total").textContent =
+    tasks.length;
+
+  if (tasks.length === 0) {
+    list.innerHTML = '<div class="empty">No tasks yet. Create your first task!</div>';
+    return;
+  }
+
+  list.innerHTML = tasks.map(task => `
+    <div class="task">
+      <div class="task-top">
+        <b>${escapeHTML(task.name)}</b>
+        <button class="danger" onclick="deleteTask(${task.id})">Delete</button>
+      </div>
+
+      <small>${escapeHTML(task.employee)}</small>
+
+      <div class="status">${task.status}</div>
+
+      <select onchange="updateStatus(${task.id}, this.value)">
+        <option ${task.status === "Pending" ? "selected" : ""}>Pending</option>
+        <option ${task.status === "In Progress" ? "selected" : ""}>In Progress</option>
+        <option ${task.status === "Completed" ? "selected" : ""}>Completed</option>
+      </select>
+    </div>
+  `).join("");
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+renderTasks();
+</script>
+
 </body>
-    </html>
-      
+  </html>
+  
