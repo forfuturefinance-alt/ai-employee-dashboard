@@ -7,7 +7,17 @@
 <title>AI Employee Dashboard</title>
 
 <style>
-* { box-sizing: border-box; }
+* { box-sizing: border-box; textarea {
+  background: #141522;
+  color: white;
+  border: 1px solid #44465d;
+  border-radius: 8px;
+  padding: 11px;
+  width: 100%;
+  margin: 7px 0;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+} }
 
 body {
   margin: 0;
@@ -142,7 +152,7 @@ footer {
 <div class="stats">
   <div class="card">
     <div class="stat-label">AI Employees</div>
-    <div class="stat-number">4</div>
+    <div class="stat-number">5</div>
   </div>
 
   <div class="card">
@@ -213,12 +223,50 @@ footer {
     <option>Research Assistant</option>
     <option>Data Analyst</option>
     <option>Task Manager</option>
+    <option>AI Video Editor</option>
+    <div class="employee">
+  <div class="avatar">🎬</div>
+  <div class="employee-info">
+    <b>AI Video Editor</b><br>
+    <small>Creates video packages and storyboards</small>
+  </div>
+  <span class="online">Online</span>
+</div>
   </select>
 
   <button onclick="addTask()">+ Create Task</button>
 </div>
 
 <h2>Recent Tasks</h2>
+  <h2>🎬 AI Video Editor</h2>
+
+<div class="panel">
+  <p class="subtitle">Create a YouTube video package automatically.</p>
+
+  <label>Video Topic</label>
+  <input id="videoTopic" placeholder="Example: Why You Can't Stay Consistent">
+
+  <label>Video Script (optional)</label>
+  <textarea id="videoScript" rows="6"
+    placeholder="Paste your video script here..."></textarea>
+
+  <label>Video Format</label>
+  <select id="videoFormat">
+    <option value="16:9">YouTube Long Form (16:9)</option>
+    <option value="9:16">YouTube Shorts (9:16)</option>
+  </select>
+
+  <label>Video Style</label>
+  <select id="videoStyle">
+    <option value="2D stick-figure animation">2D Stick-Figure Animation</option>
+    <option value="2D cartoon animation">2D Cartoon Animation</option>
+    <option value="Minimalist illustration">Minimalist Illustration</option>
+  </select>
+
+  <button onclick="generateVideoPackage()">Generate Video Package</button>
+
+  <div id="videoOutput" style="margin-top:20px;"></div>
+</div>
 
 <div class="panel" id="taskList"></div>
 
@@ -272,7 +320,153 @@ function deleteTask(id) {
   tasks = tasks.filter(task => task.id !== id);
   saveTasks();
 }
+function generateVideoPackage() {
+  const topic = document.getElementById("videoTopic").value.trim();
+  const script = document.getElementById("videoScript").value.trim();
+  const format = document.getElementById("videoFormat").value;
+  const style = document.getElementById("videoStyle").value;
+  const output = document.getElementById("videoOutput");
 
+  if (!topic) {
+    alert("Please enter a video topic.");
+    return;
+  }
+
+  const cleanTopic = topic.replace(/[.!?]+$/, "");
+  const title = cleanTopic.length > 65
+    ? cleanTopic.slice(0, 62) + "..."
+    : cleanTopic;
+
+  const description =
+`Discover ${cleanTopic}.
+
+In this video, we'll explore practical ideas and lessons about ${cleanTopic.toLowerCase()}.
+
+Subscribe for more videos about personal growth, discipline, and self-improvement.
+
+#SelfImprovement #PersonalGrowth #Motivation`;
+
+  const words = cleanTopic
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, "")
+    .split(/\s+/)
+    .filter(word => word.length > 2);
+
+  const tags = [...new Set([
+    ...words,
+    "self improvement",
+    "personal growth",
+    "motivation",
+    "discipline",
+    "productivity",
+    "mindset"
+  ])].join(", ");
+
+  const hashtags = [
+    "#SelfImprovement",
+    "#PersonalGrowth",
+    "#Motivation",
+    "#Discipline",
+    "#Mindset"
+  ].join(" ");
+
+  const scenes = script
+    ? script.split(/(?<=[.!?])\s+/).filter(Boolean)
+    : [
+        `Introduce the problem: ${cleanTopic}.`,
+        "Show a relatable everyday situation.",
+        "Explain why this problem happens.",
+        "Present practical lessons and solutions.",
+        "End with a memorable takeaway and call to action."
+      ];
+
+  const storyboard = scenes.map((scene, index) =>
+    `Scene ${index + 1}: ${scene.trim()}\nVisual style: ${style}`
+  ).join("\n\n");
+
+  const packageText =
+`VIDEO TITLE
+${title}
+
+DESCRIPTION
+${description}
+
+TAGS
+${tags}
+
+HASHTAGS
+${hashtags}
+
+VIDEO FORMAT
+${format}
+
+VISUAL STYLE
+${style}
+
+STORYBOARD
+${storyboard}`;
+
+  output.innerHTML = `
+    <h3>Generated Video Package</h3>
+
+    <div class="task">
+      <b>Title</b>
+      <p>${escapeHTML(title)}</p>
+    </div>
+
+    <div class="task">
+      <b>Description</b>
+      <p>${escapeHTML(description)}</p>
+    </div>
+
+    <div class="task">
+      <b>Tags</b>
+      <p>${escapeHTML(tags)}</p>
+    </div>
+
+    <div class="task">
+      <b>Hashtags</b>
+      <p>${escapeHTML(hashtags)}</p>
+    </div>
+
+    <div class="task">
+      <b>Storyboard</b>
+      <p>${escapeHTML(storyboard).replace(/\n/g, "<br>")}</p>
+    </div>
+
+    <button onclick="copyVideoPackage()">Copy Complete Package</button>
+    <button class="secondary" onclick="downloadStoryboard()">Download Storyboard</button>
+  `;
+
+  window.generatedVideoPackage = packageText;
+  window.generatedStoryboard = storyboard;
+}
+
+function copyVideoPackage() {
+  if (!window.generatedVideoPackage) return;
+
+  navigator.clipboard.writeText(window.generatedVideoPackage)
+    .then(() => alert("Video package copied!"))
+    .catch(() => alert("Copy failed. Please try again."));
+}
+
+function downloadStoryboard() {
+  if (!window.generatedStoryboard) return;
+
+  const blob = new Blob(
+    [window.generatedStoryboard],
+    { type: "text/plain" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "video-storyboard.txt";
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
 function renderTasks() {
   const list = document.getElementById("taskList");
 
